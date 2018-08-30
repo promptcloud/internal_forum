@@ -27,8 +27,19 @@ module Forum
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+    #config.autoload_paths += %W(config/forum_credentials.yml)
+
+
     # Don't generate system test files.
     config.generators.system_tests = nil
     config.i18n.available_locales = %w(en)
+
+    env_file = File.expand_path("#{Rails.root}/config/forum_credentials.yml", __FILE__)
+
+    if File.exists?(env_file)
+      YAML.load_file(env_file)[Rails.env].each do |key, value|
+        ENV[key.to_s] = value
+      end
+    end
   end
 end
