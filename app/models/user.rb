@@ -8,13 +8,19 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  devise :ldap_authenticatable, :registerable,
+    :recoverable, :rememberable, :validatable
+
+  def authenticatable_salt
+    Digest::SHA1.hexdigest(email)[0,29]
+  end
+
   private
 
   # Makes the display_name unique by appending a number to it if necessary.
   # "Gleb" => Gleb 1"
   def uniq_display_name!
+    self.display_name = display_name ? display_name : email.split('@').first.downcase
     if display_name.present?
       new_display_name = display_name
       i = 0

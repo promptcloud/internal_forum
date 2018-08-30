@@ -1,0 +1,19 @@
+authorizations: &AUTHORIZATIONS
+  host: <%= ENV['LDAP_HOST'] %>
+  port: <%= ENV['LDAP_PORT'] %>
+  attribute: <%= ENV['LDAP_ATTRIBUTE'] %>
+  base: <%= ENV['LDAP_BASE'] %>
+  admin_user: <%= ENV['LDAP_ADMIN_USER'] %>
+  admin_password: <%= ENV['LDAP_ADMIN_PASSWORD'] %>
+  ssl: false
+
+## Environment
+
+development:
+  <<: *AUTHORIZATIONS
+
+test:
+  <<: *AUTHORIZATIONS
+
+production:
+  <<: *AUTHORIZATIONS
