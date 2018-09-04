@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-workers Integer(ENV.fetch('WEB_CONCURRENCY', 3))
+workers Integer(ENV.fetch('WEB_CONCURRENCY', 4))
 threads_count = Integer(ENV.fetch('MAX_THREADS', 5))
 threads(threads_count, threads_count)
 
@@ -15,10 +15,11 @@ if ENV['ANSIBLE_PROVISIONED']
                   "#{shared_path}/log/puma.error.log",
                   true
 else
-  port ENV.fetch('PORT', 3000)
+  port ENV.fetch('PORT', 8787)
 end
 
-environment ENV.fetch('RACK_ENV', 'development')
+#environment ENV.fetch('RACK_ENV', 'development')
+environment ENV.fetch("RAILS_ENV") { "production" }
 
 before_fork do
   ::ActiveRecord::Base.connection_pool.disconnect!
@@ -26,5 +27,11 @@ before_fork do
 end
 
 on_worker_boot do
-  ActiveRecord::Base.establish_connection
+  ActiveSupport.on_load(:active_record) do
+    ActiveRecord::Base.establish_connection
+  end
 end
+
+#on_worker_boot do
+  #ActiveRecord::Base.establish_connection
+#end
