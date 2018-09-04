@@ -44,6 +44,7 @@ test:
 production:
   <<: *defaults
   encoding: utf8
+  collation: utf8_unicode_ci #utf8mb4_unicode_ci wasn't work in production so we have put utf8_unicode_ci instead of it.
 
   #<<: *defaults
   #encoding: utf8

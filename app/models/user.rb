@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   validates :display_name, presence: true, uniqueness: true
   before_validation :uniq_display_name!, on: :create
+  validates :email, format: { with: /\b[A-Z0-9._%a-z\-]+@promptcloud\.com\z/, message: "must be a promptcloud.com account" }
 
   def display_name=(value)
     super(value ? value.strip : nil)

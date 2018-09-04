@@ -82,6 +82,18 @@ Rails.application.configure do
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    domain: Settings.hostname,
+    :address   => ENV['MAILER_SMTP_ADDRESS'],
+    :port      => 26,
+    :authentication  => 'plain',
+    :enable_starttls_auto => false,
+    :user_name => ENV['MAILER_SMTP_USER_NAME'],
+    :password  => ENV['MAILER_SMTP_PASSWORD']
+  }
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
@@ -101,21 +113,21 @@ Rails.application.configure do
   # Configure memcached as the cache store
   if ENV['MEMCACHE_SERVERS']
     config.cache_store = :dalli_store,
-        ENV['MEMCACHE_SERVERS'].split(','), {
-            namespace: 'forum',
-            socket_timeout: 1.5,
-            socket_failure_delay: 0.2,
-            down_retry_delay: 60,
-            pool_size: [2, ENV.fetch('WEB_CONCURRENCY', 3).to_i *
-                           ENV.fetch('MAX_THREADS', 5).to_i].max
-        }
+      ENV['MEMCACHE_SERVERS'].split(','), {
+      namespace: 'forum',
+      socket_timeout: 1.5,
+      socket_failure_delay: 0.2,
+      down_retry_delay: 60,
+      pool_size: [2, ENV.fetch('WEB_CONCURRENCY', 3).to_i *
+                  ENV.fetch('MAX_THREADS', 5).to_i].max
+    }
   elsif ENV['MEMCACHEDCLOUD_SERVERS']
     config.cache_store = :dalli_store,
-        ENV['MEMCACHEDCLOUD_SERVERS'].split(','), {
-            username: ENV['MEMCACHEDCLOUD_USERNAME'],
-            password: ENV['MEMCACHEDCLOUD_PASSWORD'],
-            pool_size: [2, ENV.fetch('WEB_CONCURRENCY', 3).to_i *
-                           ENV.fetch('MAX_THREADS', 5).to_i].max
-        }
+      ENV['MEMCACHEDCLOUD_SERVERS'].split(','), {
+      username: ENV['MEMCACHEDCLOUD_USERNAME'],
+      password: ENV['MEMCACHEDCLOUD_PASSWORD'],
+      pool_size: [2, ENV.fetch('WEB_CONCURRENCY', 3).to_i *
+                  ENV.fetch('MAX_THREADS', 5).to_i].max
+    }
   end
 end
