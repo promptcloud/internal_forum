@@ -29,7 +29,7 @@ module Forum
 
     # Use a real queuing backend for Active Job (and separate queues per environment)
     config.active_job.queue_adapter     = :resque
-    config.active_job.queue_name_prefix = "promptcloud_forum_#{Rails.env}"
+   # config.active_job.queue_name_prefix = "promptcloud_forum_#{Rails.env}"
 
     # Don't generate system test files.
     config.generators.system_tests = nil
