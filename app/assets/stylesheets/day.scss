@@ -1,3 +1,10 @@
+$brand-primary: #008ef0 !default;
+
 @import "variables";
 @import "deps";
 @import "app";
+
+body {
+  background-image: url("\pattern-2-40.png");
+  background-repeat: repeat;
+}
