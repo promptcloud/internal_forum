@@ -29,7 +29,7 @@ module Forum
 
     # Use a real queuing backend for Active Job (and separate queues per environment)
     config.active_job.queue_adapter     = :resque
-    config.active_job.queue_name_prefix = "ror_prod_thredded"
+    config.active_job.queue_name_prefix = "ror_#{Rails.env}_thredded"
 
     # Don't generate system test files.
     config.generators.system_tests = nil

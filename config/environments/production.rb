@@ -105,7 +105,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false  
   # Set the default URL options for both Roadie and ActionMailer:
   config.roadie.url_options = config.action_mailer.default_url_options = {
-    host: Settings.hostname,
+    host: ENV['APP_HOST'], 
     protocol: 'https',
   }
 
