@@ -53,7 +53,7 @@ Thredded.content_visible_while_pending_moderation = true
 # :position            (default) set the position manually (new messageboards go to the bottom, by creation timestamp)
 # :last_post_at_desc   most recent post first
 # :topics_count_desc   most topics first
-Thredded.messageboards_order = :position
+Thredded.messageboards_order = :last_post_at_desc
 
 # Whether users that are following a topic are listed on the topic page.
 Thredded.show_topic_followers = false
@@ -139,12 +139,12 @@ Thredded.parent_mailer = 'ApplicationMailer'
 #
 #     $ grep view_hooks -R --include '*.html.erb' "$(bundle show thredded)"
 #
-# Rails.application.config.to_prepare do
-#   Thredded.view_hooks.post_form.content_text_area.config.before do |form:, **args|
-#     # This is called in the Thredded view context, so all Thredded helpers and URLs are accessible here directly.
-#     'hi'
-#   end
-# end
+ Rails.application.config.to_prepare do
+   Thredded.view_hooks.post_form.content_text_area.config.after do |form:, **args|
+     # This is called in the Thredded view context, so all Thredded helpers and URLs are accessible here directly.
+     render 'shared/reply_help_links', form: form
+   end
+ end
 
 # ==> Topic following
 #
@@ -178,6 +178,7 @@ Thredded.parent_mailer = 'ApplicationMailer'
 Rails.application.config.to_prepare do
   Thredded::ApplicationController.module_eval do
     rescue_from Thredded::Errors::LoginRequired do |exception|
+      # Place the code for rendering the login form here, for example:
       flash.now[:notice] = exception.message
       controller = Users::SessionsController.new
       controller.request = request

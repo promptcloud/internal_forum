@@ -3,8 +3,9 @@ $brand-primary: #008ef0 !default;
 @import "variables";
 @import "deps";
 @import "app";
+@import "coderay/day";
 
 body {
-  background-image: url("\pattern-2-40.png");
+  background-image: asset-url("\pattern-2-40.png");
   background-repeat: repeat;
 }

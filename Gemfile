@@ -79,3 +79,5 @@ gem 'invisible_captcha'
 gem 'rails-timeago'
 gem 'dalli'
 gem 'connection_pool'
+
+gem 'thredded-markdown_coderay'
