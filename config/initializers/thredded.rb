@@ -65,7 +65,7 @@ Thredded.currently_online_enabled = true
 Thredded.private_messaging_enabled = true
 
 # The number of topics to display per page.
-# Thredded.topics_per_page = 50
+Thredded.topics_per_page = 100
 
 # The number of posts to display per page in a topic.
 # Thredded.posts_per_page = 25
